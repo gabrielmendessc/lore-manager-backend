@@ -36,7 +36,7 @@ public class UserLoreService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserLore userLore = findByUsername(username);
+        UserLore userLore = findByDsUsername(username);
         if (Objects.nonNull(userLore)) {
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             userLore.getRoleList().forEach(role -> {
@@ -64,9 +64,15 @@ public class UserLoreService implements UserDetailsService {
 
     }
 
-    public UserLore findByUsername(String username){
+    public UserLore findByDsUsername(String dsUsername){
 
-        return userLoreRepository.findByDsUsername(username);
+        return userLoreRepository.findByDsUsername(dsUsername);
+
+    }
+
+    public UserLore findByDsEmail(String dsEmail) {
+
+        return userLoreRepository.findByDsEmail(dsEmail);
 
     }
 

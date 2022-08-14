@@ -39,7 +39,7 @@ public class TokenController {
 
                 String dsRefreshToken = authorizationHeader.replace("Bearer ", "");
                 DecodedJWT decodedJWT = JWTUtils.decodeToken(dsRefreshToken);
-                User user = UserUtils.fromUserLore(userLoreService.findByUsername(decodedJWT.getSubject()));
+                User user = UserUtils.fromUserLore(userLoreService.findByDsUsername(decodedJWT.getSubject()));
                 String dsAcessToken = JWTUtils.createAcessToken(user, request.getRequestURI(), 10);
 
                 Token token = new Token(dsAcessToken, dsRefreshToken);

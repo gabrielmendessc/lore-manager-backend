@@ -1,7 +1,7 @@
 package loremanager.com.security;
 
 import lombok.AllArgsConstructor;
-import loremanager.com.security.enums.Role;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final AutowireCapableBeanFactory autowireCapableBeanFactory;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -33,11 +34,15 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/login", "/token/refresh").permitAll();
+        http.authorizeRequests().antMatchers("/login", "/token/refresh", "/test").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").permitAll();
+        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
         http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(new AuthenticationFilterLore(authenticationManagerBean()));
+
+        AuthenticationFilterLore authenticationFilterLore = new AuthenticationFilterLore(authenticationManagerBean());
+        autowireCapableBeanFactory.autowireBean(authenticationFilterLore);
+        http.addFilter(authenticationFilterLore);
         http.addFilterBefore(new AuthorizationFilterLore(), UsernamePasswordAuthenticationFilter.class);
 
     }
