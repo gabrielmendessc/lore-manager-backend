@@ -1,7 +1,6 @@
 package loremanager.com.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import loremanager.com.security.enums.Role;
@@ -18,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.List;
 
-@Data
 @Entity @Table(name = "tb_user")
 @Getter @Setter
 public class UserLore {

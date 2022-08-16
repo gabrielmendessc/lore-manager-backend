@@ -19,7 +19,7 @@ import static java.util.Arrays.stream;
 
 public class JWTUtils {
 
-    private static Algorithm algorithm = Algorithm.HMAC512("Progamador Drogado".getBytes());
+    private static Algorithm algorithm = Algorithm.HMAC512(System.getProperty("secrect.jwt.token").getBytes());
 
     public static String createAcessToken(User user, String dsIssuer, Integer minutesExpiration) {
 
