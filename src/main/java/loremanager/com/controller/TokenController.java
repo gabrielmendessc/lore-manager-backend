@@ -7,6 +7,7 @@ import loremanager.com.security.utils.JWTUtils;
 import loremanager.com.security.utils.UserUtils;
 import loremanager.com.service.UserLoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +30,9 @@ public class TokenController {
     @Autowired
     private UserLoreService userLoreService;
 
+    @Value("${secrect.jwt.token}")
+    private String dsSecret;
+
     @GetMapping("/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -38,9 +42,9 @@ public class TokenController {
             try {
 
                 String dsRefreshToken = authorizationHeader.replace("Bearer ", "");
-                DecodedJWT decodedJWT = JWTUtils.decodeToken(dsRefreshToken);
+                DecodedJWT decodedJWT = JWTUtils.decodeToken(dsRefreshToken, dsSecret);
                 User user = UserUtils.fromUserLore(userLoreService.findByDsUsername(decodedJWT.getSubject()));
-                String dsAcessToken = JWTUtils.createAcessToken(user, request.getRequestURI(), 10);
+                String dsAcessToken = JWTUtils.createAcessToken(user, request.getRequestURI(), 10, dsSecret);
 
                 Token token = new Token(dsAcessToken, dsRefreshToken);
 
