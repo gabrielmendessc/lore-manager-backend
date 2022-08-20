@@ -1,1 +1,1 @@
-# lore-manager-backend
+# lore-keeper-backend

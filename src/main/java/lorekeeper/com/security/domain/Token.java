@@ -1,4 +1,4 @@
-package loremanager.com.security.domain;
+package lorekeeper.com.security.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

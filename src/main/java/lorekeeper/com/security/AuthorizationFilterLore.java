@@ -1,8 +1,8 @@
-package loremanager.com.security;
+package lorekeeper.com.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.security.utils.JWTService;
+import lorekeeper.com.security.utils.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

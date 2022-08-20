@@ -1,8 +1,8 @@
-package loremanager.com.service;
+package lorekeeper.com.service;
 
 import lombok.RequiredArgsConstructor;
-import loremanager.com.domain.UserLore;
-import loremanager.com.repository.UserLoreRepository;
+import lorekeeper.com.domain.UserLore;
+import lorekeeper.com.repository.UserLoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

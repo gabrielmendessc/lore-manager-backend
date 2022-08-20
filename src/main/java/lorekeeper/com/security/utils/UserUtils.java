@@ -1,6 +1,6 @@
-package loremanager.com.security.utils;
+package lorekeeper.com.security.utils;
 
-import loremanager.com.domain.UserLore;
+import lorekeeper.com.domain.UserLore;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 

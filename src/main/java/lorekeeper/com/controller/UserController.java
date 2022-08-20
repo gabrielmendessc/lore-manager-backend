@@ -1,7 +1,7 @@
-package loremanager.com.controller;
+package lorekeeper.com.controller;
 
-import loremanager.com.domain.UserLore;
-import loremanager.com.service.UserLoreService;
+import lorekeeper.com.domain.UserLore;
+import lorekeeper.com.service.UserLoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

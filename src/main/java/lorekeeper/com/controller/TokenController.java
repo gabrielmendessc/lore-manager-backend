@@ -1,11 +1,11 @@
-package loremanager.com.controller;
+package lorekeeper.com.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.security.domain.Token;
-import loremanager.com.security.utils.JWTService;
-import loremanager.com.security.utils.UserUtils;
-import loremanager.com.service.UserLoreService;
+import lorekeeper.com.security.utils.JWTService;
+import lorekeeper.com.security.utils.UserUtils;
+import lorekeeper.com.service.UserLoreService;
+import lorekeeper.com.security.domain.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,9 +1,9 @@
-package loremanager.com.domain;
+package lorekeeper.com.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import loremanager.com.security.enums.Role;
+import lorekeeper.com.security.enums.Role;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

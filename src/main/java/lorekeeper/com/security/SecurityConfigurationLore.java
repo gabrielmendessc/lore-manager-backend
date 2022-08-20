@@ -1,7 +1,7 @@
-package loremanager.com.security;
+package lorekeeper.com.security;
 
 import lombok.AllArgsConstructor;
-import loremanager.com.security.enums.Role;
+import lorekeeper.com.security.enums.Role;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,8 +1,8 @@
-package loremanager.com.security;
+package lorekeeper.com.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.security.domain.Token;
-import loremanager.com.security.utils.JWTService;
+import lorekeeper.com.security.utils.JWTService;
+import lorekeeper.com.security.domain.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;

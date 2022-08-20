@@ -1,4 +1,4 @@
-package loremanager.com.security;
+package lorekeeper.com.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

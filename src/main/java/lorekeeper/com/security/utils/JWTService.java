@@ -1,4 +1,4 @@
-package loremanager.com.security.utils;
+package lorekeeper.com.security.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
