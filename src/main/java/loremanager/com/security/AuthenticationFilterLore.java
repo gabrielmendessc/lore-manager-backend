@@ -1,10 +1,8 @@
 package loremanager.com.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.domain.UserLore;
 import loremanager.com.security.domain.Token;
 import loremanager.com.security.utils.JWTService;
-import loremanager.com.service.UserLoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,15 +17,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilter {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserLoreService userLoreService;
     @Autowired
     private JWTService jwtService;
 
@@ -42,27 +37,11 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (username.indexOf("@") > 0) {
-
-            username = getUsernameByEmail(username);
-
-        }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
         return authenticationManager.authenticate(authenticationToken);
 
-    }
-
-    private String getUsernameByEmail(String username) {
-        UserLore userLore = userLoreService.findByDsEmail(username);
-        if (Objects.nonNull(userLore)) {
-
-            return userLore.getDsUsername();
-
-        }
-
-        return username;
     }
 
     @Override
