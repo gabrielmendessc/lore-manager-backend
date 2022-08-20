@@ -1,6 +1,7 @@
 package loremanager.com.security;
 
 import lombok.AllArgsConstructor;
+import loremanager.com.security.enums.Role;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,16 +35,20 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http.authorizeRequests().antMatchers("/login", "/token/refresh", "/test").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").permitAll();
-        //http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
+        //http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
         http.authorizeRequests().anyRequest().authenticated();
 
         AuthenticationFilterLore authenticationFilterLore = new AuthenticationFilterLore(authenticationManagerBean());
         autowireCapableBeanFactory.autowireBean(authenticationFilterLore);
         http.addFilter(authenticationFilterLore);
-        http.addFilterBefore(new AuthorizationFilterLore(), UsernamePasswordAuthenticationFilter.class);
+
+        AuthorizationFilterLore authorizationFilterLore = new AuthorizationFilterLore();
+        autowireCapableBeanFactory.autowireBean(authorizationFilterLore);
+        http.addFilterBefore(authorizationFilterLore, UsernamePasswordAuthenticationFilter.class);
 
     }
 

@@ -1,12 +1,9 @@
 package loremanager.com.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.domain.UserLore;
 import loremanager.com.security.domain.Token;
-import loremanager.com.security.utils.JWTUtils;
-import loremanager.com.service.UserLoreService;
+import loremanager.com.security.utils.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilter {
@@ -28,9 +24,7 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
-    private UserLoreService userLoreService;
-    @Value("${secrect.jwt.token}")
-    private String dsToken;
+    private JWTService jwtService;
 
     public AuthenticationFilterLore(AuthenticationManager authenticationManager){
 
@@ -43,11 +37,6 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (username.indexOf("@") > 0) {
-
-            username = getUsernameByEmail(username);
-
-        }
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
@@ -55,24 +44,13 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
 
     }
 
-    private String getUsernameByEmail(String username) {
-        UserLore userLore = userLoreService.findByDsEmail(username);
-        if (Objects.nonNull(userLore)) {
-
-            return userLore.getDsUsername();
-
-        }
-
-        return username;
-    }
-
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
 
         User user = (User) authentication.getPrincipal();
 
-        String acessToken = JWTUtils.createAcessToken(user, request.getRequestURI(), 10, dsToken);
-        String refreshToken = JWTUtils.createRefreshToken(user, request.getRequestURI(), 30, dsToken);
+        String acessToken = jwtService.createAcessToken(user, request.getRequestURI(), 10);
+        String refreshToken = jwtService.createRefreshToken(user, request.getRequestURI(), 30);
 
         Token token = new Token(acessToken, refreshToken);
 

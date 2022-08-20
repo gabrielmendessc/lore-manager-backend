@@ -7,6 +7,6 @@ public interface UserLoreRepository extends JpaRepository<UserLore, Integer> {
 
     UserLore findByDsUsername(String dsUsername);
 
-    UserLore findByDsEmail(String dsEmail);
+    UserLore findByDsUsernameOrDsEmail(String dsUsername, String dsEmail);
 
 }
