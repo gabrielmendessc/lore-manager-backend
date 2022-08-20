@@ -38,7 +38,7 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/login", "/token/refresh", "/test").permitAll();
         //http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
         http.authorizeRequests().anyRequest().authenticated();
 
