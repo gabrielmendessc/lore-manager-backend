@@ -1,8 +1,9 @@
-package loremanager.com.security;
+package lorekeeper.com.security;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import loremanager.com.security.utils.JWTUtils;
+import lorekeeper.com.security.utils.JWTService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,9 @@ import java.util.Objects;
 
 public class AuthorizationFilterLore extends OncePerRequestFilter {
 
+    @Autowired
+    private JWTService jwtService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -28,9 +32,9 @@ public class AuthorizationFilterLore extends OncePerRequestFilter {
 
                 try {
 
-                    DecodedJWT decodedJWT = JWTUtils.decodeToken(authorizationHeader.replace("Bearer ", ""));
+                    DecodedJWT decodedJWT = jwtService.decodeToken(authorizationHeader.replace("Bearer ", ""));
 
-                    JWTUtils.authenticate(decodedJWT);
+                    jwtService.authenticate(decodedJWT);
 
                 } catch (Exception e) {
 

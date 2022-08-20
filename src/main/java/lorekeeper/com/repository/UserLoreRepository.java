@@ -1,10 +1,12 @@
-package loremanager.com.repository;
+package lorekeeper.com.repository;
 
-import loremanager.com.domain.UserLore;
+import lorekeeper.com.domain.UserLore;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserLoreRepository extends JpaRepository<UserLore, Integer> {
 
     UserLore findByDsUsername(String dsUsername);
+
+    UserLore findByDsUsernameOrDsEmail(String dsUsername, String dsEmail);
 
 }

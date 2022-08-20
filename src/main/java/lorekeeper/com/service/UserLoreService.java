@@ -1,8 +1,8 @@
-package loremanager.com.service;
+package lorekeeper.com.service;
 
 import lombok.RequiredArgsConstructor;
-import loremanager.com.domain.UserLore;
-import loremanager.com.repository.UserLoreRepository;
+import lorekeeper.com.domain.UserLore;
+import lorekeeper.com.repository.UserLoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,7 +36,7 @@ public class UserLoreService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserLore userLore = findByUsername(username);
+        UserLore userLore = findByDsUsernameOrDsEmail(username, username);
         if (Objects.nonNull(userLore)) {
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             userLore.getRoleList().forEach(role -> {
@@ -64,9 +64,15 @@ public class UserLoreService implements UserDetailsService {
 
     }
 
-    public UserLore findByUsername(String username){
+    public UserLore findByDsUsername(String dsUsername){
 
-        return userLoreRepository.findByDsUsername(username);
+        return userLoreRepository.findByDsUsername(dsUsername);
+
+    }
+
+    private UserLore findByDsUsernameOrDsEmail(String dsUsername, String dsEmail) {
+
+        return userLoreRepository.findByDsUsernameOrDsEmail(dsUsername, dsEmail);
 
     }
 
