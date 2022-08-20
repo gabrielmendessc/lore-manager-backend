@@ -34,6 +34,9 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.formLogin().usernameParameter("email");
+
         http.authorizeRequests().antMatchers("/login", "/token/refresh", "/test").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").permitAll();
@@ -42,6 +45,7 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
 
         AuthenticationFilterLore authenticationFilterLore = new AuthenticationFilterLore(authenticationManagerBean());
         autowireCapableBeanFactory.autowireBean(authenticationFilterLore);
+
         http.addFilter(authenticationFilterLore);
         http.addFilterBefore(new AuthorizationFilterLore(), UsernamePasswordAuthenticationFilter.class);
 

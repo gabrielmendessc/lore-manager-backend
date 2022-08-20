@@ -5,12 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
-@PropertySource("classpath:application.properties-dev")
-public class JWTUtils {
+@Service
+public class JWTService {
 
     @Value("${secrect.jwt.token}")
-    private static String dsSecret;
+    private String dsSecret;
 
-    public static String createAcessToken(User user, String dsIssuer, Integer minutesExpiration, String dsSecret) {
+    public String createAcessToken(User user, String dsIssuer, Integer minutesExpiration) {
 
         return JWT.create()
                 .withSubject(user.getUsername())
@@ -38,7 +38,7 @@ public class JWTUtils {
 
     }
 
-    public static String createRefreshToken(User user, String dsIssuer, Integer minutesExpiration, String dsSecret) {
+    public String createRefreshToken(User user, String dsIssuer, Integer minutesExpiration) {
 
         return JWT.create()
                 .withSubject(user.getUsername())
@@ -48,14 +48,14 @@ public class JWTUtils {
 
     }
 
-    public static DecodedJWT decodeToken(String dsToken, String dsSecret) {
+    public DecodedJWT decodeToken(String dsToken) {
 
         JWTVerifier verifier = JWT.require(Algorithm.HMAC512(dsSecret)).build();
         return verifier.verify(dsToken);
 
     }
 
-    public static void authenticate(DecodedJWT decodedJWT) {
+    public void authenticate(DecodedJWT decodedJWT) {
 
         String dsUsername = decodedJWT.getSubject();
         String[] roleArray = decodedJWT.getClaim("roles").asArray(String.class);

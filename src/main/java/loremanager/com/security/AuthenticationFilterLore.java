@@ -3,10 +3,9 @@ package loremanager.com.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import loremanager.com.domain.UserLore;
 import loremanager.com.security.domain.Token;
-import loremanager.com.security.utils.JWTUtils;
+import loremanager.com.security.utils.JWTService;
 import loremanager.com.service.UserLoreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +28,8 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserLoreService userLoreService;
-    @Value("${secrect.jwt.token}")
-    private String dsToken;
+    @Autowired
+    private JWTService jwtService;
 
     public AuthenticationFilterLore(AuthenticationManager authenticationManager){
 
@@ -71,8 +70,8 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
 
         User user = (User) authentication.getPrincipal();
 
-        String acessToken = JWTUtils.createAcessToken(user, request.getRequestURI(), 10, dsToken);
-        String refreshToken = JWTUtils.createRefreshToken(user, request.getRequestURI(), 30, dsToken);
+        String acessToken = jwtService.createAcessToken(user, request.getRequestURI(), 10);
+        String refreshToken = jwtService.createRefreshToken(user, request.getRequestURI(), 30);
 
         Token token = new Token(acessToken, refreshToken);
 
