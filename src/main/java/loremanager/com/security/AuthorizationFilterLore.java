@@ -32,7 +32,7 @@ public class AuthorizationFilterLore extends OncePerRequestFilter {
 
                 try {
 
-                    DecodedJWT decodedJWT = new JWTService().decodeToken(authorizationHeader.replace("Bearer ", ""));
+                    DecodedJWT decodedJWT = jwtService.decodeToken(authorizationHeader.replace("Bearer ", ""));
 
                     jwtService.authenticate(decodedJWT);
 
