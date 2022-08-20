@@ -3,6 +3,7 @@ package loremanager.com.security;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import loremanager.com.security.utils.JWTUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,6 +20,9 @@ import java.util.Objects;
 
 public class AuthorizationFilterLore extends OncePerRequestFilter {
 
+    @Value("${secrect.jwt.token}")
+    private String dsSecret;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -28,7 +32,7 @@ public class AuthorizationFilterLore extends OncePerRequestFilter {
 
                 try {
 
-                    DecodedJWT decodedJWT = JWTUtils.decodeToken(authorizationHeader.replace("Bearer ", ""));
+                    DecodedJWT decodedJWT = JWTUtils.decodeToken(authorizationHeader.replace("Bearer ", ""), dsSecret);
 
                     JWTUtils.authenticate(decodedJWT);
 

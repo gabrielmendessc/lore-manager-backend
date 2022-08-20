@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,11 +19,13 @@ import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
 
+@PropertySource("classpath:application.properties-dev")
 public class JWTUtils {
 
-    private static Algorithm algorithm = Algorithm.HMAC512(System.getProperty("secrect.jwt.token").getBytes());
+    @Value("${secrect.jwt.token}")
+    private static String dsSecret;
 
-    public static String createAcessToken(User user, String dsIssuer, Integer minutesExpiration) {
+    public static String createAcessToken(User user, String dsIssuer, Integer minutesExpiration, String dsSecret) {
 
         return JWT.create()
                 .withSubject(user.getUsername())
@@ -30,23 +34,23 @@ public class JWTUtils {
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toList()))
-                .sign(algorithm);
+                .sign(Algorithm.HMAC512(dsSecret));
 
     }
 
-    public static String createRefreshToken(User user, String dsIssuer, Integer minutesExpiration) {
+    public static String createRefreshToken(User user, String dsIssuer, Integer minutesExpiration, String dsSecret) {
 
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + minutesExpiration * 60 * 1000))
                 .withIssuer(dsIssuer)
-                .sign(algorithm);
+                .sign(Algorithm.HMAC512(dsSecret));
 
     }
 
-    public static DecodedJWT decodeToken(String dsToken) {
+    public static DecodedJWT decodeToken(String dsToken, String dsSecret) {
 
-        JWTVerifier verifier = JWT.require(algorithm).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC512(dsSecret)).build();
         return verifier.verify(dsToken);
 
     }
