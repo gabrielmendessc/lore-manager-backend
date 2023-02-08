@@ -18,7 +18,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserLoreService userLoreService;
+    private UserLoreService userLoreService;
 
     @PostMapping
     public ResponseEntity<UserLore> addUser(@RequestBody UserLore userLore) {

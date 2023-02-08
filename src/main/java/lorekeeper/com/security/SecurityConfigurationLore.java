@@ -16,6 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration @EnableWebSecurity @AllArgsConstructor
 public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
@@ -34,10 +39,10 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
+        http.cors();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests().antMatchers("/login", "/token/refresh", "/test").permitAll();
-        //http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();;
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/user").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/user/**").hasAuthority(Role.USER.name());
         http.authorizeRequests().anyRequest().authenticated();
@@ -63,6 +68,22 @@ public class SecurityConfigurationLore extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedOriginPatterns(Arrays.asList("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return source;
+
     }
 
 }

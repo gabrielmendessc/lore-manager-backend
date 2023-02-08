@@ -55,6 +55,7 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
         Token token = new Token(acessToken, refreshToken);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
         new ObjectMapper().writeValue(response.getOutputStream(), token);
 
     }
@@ -65,4 +66,5 @@ public class AuthenticationFilterLore extends UsernamePasswordAuthenticationFilt
         super.unsuccessfulAuthentication(request, response, failed);
 
     }
+
 }
