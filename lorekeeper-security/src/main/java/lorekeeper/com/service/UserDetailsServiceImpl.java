@@ -17,15 +17,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserLoreKeeperService userLoreKeeperService;
 
     @Override
-    public UserDetails loadUserByUsername(String dsUsername) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 
-        return new UserSecurity(userLoreKeeperService.findByDsEmailOrDsUsername(dsUsername, dsUsername).orElseThrow(createException(dsUsername)));
+        return new UserSecurity(userLoreKeeperService.findByEmailOrUsername(userName, userName).orElseThrow(createException(userName)));
 
     }
 
-    private Supplier<UsernameNotFoundException> createException(String dsUsername) {
+    private Supplier<UsernameNotFoundException> createException(String userName) {
 
-        return () -> new UsernameNotFoundException("User " + dsUsername + " not found!");
+        return () -> new UsernameNotFoundException("User " + userName + " not found!");
 
     }
 

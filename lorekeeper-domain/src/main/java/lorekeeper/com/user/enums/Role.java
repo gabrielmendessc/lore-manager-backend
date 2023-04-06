@@ -2,6 +2,7 @@ package lorekeeper.com.user.enums;
 
 public enum Role {
 
-    USER;
+    ROLE_USER,
+    ROLE_ADMIN;
 
 }

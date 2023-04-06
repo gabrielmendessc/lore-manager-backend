@@ -1,13 +1,16 @@
 package lorekeeper.com.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lorekeeper.com.user.domain.UserLoreKeeper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
 
+@Getter
 @AllArgsConstructor
 public class UserSecurity implements UserDetails {
 
@@ -16,23 +19,21 @@ public class UserSecurity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return userLoreKeeper.getRoleList().stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .toList();
+        return Collections.singleton(new SimpleGrantedAuthority(userLoreKeeper.getRole().name()));
 
     }
 
     @Override
     public String getPassword() {
 
-        return userLoreKeeper.getDsPassword();
+        return userLoreKeeper.getPassword();
 
     }
 
     @Override
     public String getUsername() {
 
-        return userLoreKeeper.getDsUsername();
+        return userLoreKeeper.getUsername();
 
     }
 

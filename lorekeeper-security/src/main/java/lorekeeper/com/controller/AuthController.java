@@ -1,7 +1,7 @@
 package lorekeeper.com.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lorekeeper.com.domain.Token;
+import lorekeeper.com.domain.TokenResponse;
 import lorekeeper.com.service.RefreshService;
 import lorekeeper.com.user.domain.UserLoreKeeper;
 import lorekeeper.com.user.service.UserLoreKeeperService;
@@ -30,9 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Token> refreshToken(HttpServletRequest httpServletRequest, @RequestBody Token token) {
+    public ResponseEntity<TokenResponse> refreshToken(HttpServletRequest httpServletRequest, @RequestBody TokenResponse tokenResponse) {
 
-        return ResponseEntity.ok(refreshService.createTokenFromRefresh(token.getDsRefreshToken(), httpServletRequest.getRequestURI()));
+        return ResponseEntity.ok(refreshService.createTokenFromRefresh(tokenResponse.getRefreshToken(), httpServletRequest.getRequestURI()));
 
     }
 

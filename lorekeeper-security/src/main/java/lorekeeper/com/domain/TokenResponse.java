@@ -6,9 +6,9 @@ import lorekeeper.com.crud.domain.AbstractDomain;
 
 @Getter
 @AllArgsConstructor
-public class Token extends AbstractDomain {
+public class TokenResponse extends AbstractDomain {
 
-    private String dsAccessToken;
-    private String dsRefreshToken;
+    private String accessToken;
+    private String refreshToken;
 
 }

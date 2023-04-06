@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserLoreKeeperRepository extends JpaRepository<UserLoreKeeper, Integer> {
 
-    Optional<UserLoreKeeper> findByDsEmailOrDsUsername(String dsEmail, String dsUsername);
+    Optional<UserLoreKeeper> findByEmailOrUsername(String email, String username);
 
 }

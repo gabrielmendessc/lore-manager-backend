@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lorekeeper.com.domain.Token;
+import lorekeeper.com.domain.TokenResponse;
+import lorekeeper.com.domain.UserSecurity;
 import lorekeeper.com.service.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -14,7 +15,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -47,16 +47,16 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
 
-        UserDetails user = (UserDetails) authResult.getPrincipal();
+        UserSecurity user = (UserSecurity) authResult.getPrincipal();
 
         String accessToken = jwtService.createAcessToken(user, request.getRequestURI(), 10);
         String refreshToken = jwtService.createRefreshToken(user, request.getRequestURI(), 60);
 
-        Token token = new Token(accessToken, refreshToken);
+        TokenResponse tokenResponse = new TokenResponse(accessToken, refreshToken);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        new ObjectMapper().writeValue(response.getOutputStream(), token);
+        new ObjectMapper().writeValue(response.getOutputStream(), tokenResponse);
 
     }
 
