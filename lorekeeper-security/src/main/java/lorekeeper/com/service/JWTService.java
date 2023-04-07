@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lorekeeper.com.domain.UserSecurity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,8 @@ import java.util.stream.Collectors;
 @Service
 public class JWTService {
 
-    private static final String SECRET_KEY = "RandomKey";
+    @Value("${jwt.token.secret}")
+    private String SECRET_KEY;
 
     public String createAcessToken(UserSecurity user, String issuer, Integer minutes) {
 

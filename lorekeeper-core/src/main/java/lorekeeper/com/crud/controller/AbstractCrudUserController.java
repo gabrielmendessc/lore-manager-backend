@@ -25,7 +25,7 @@ public abstract class AbstractCrudUserController<Domain extends AbstractDomain, 
 
     @Override
     @PostMapping("/{id}")
-    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId(#id, 'USER')")
+    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId('USER', #id)")
     public ResponseEntity<?> update(@RequestBody Domain domain, @PathVariable Id id) throws AccessDeniedException {
         return super.update(domain, id);
     }

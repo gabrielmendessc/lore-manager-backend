@@ -11,9 +11,9 @@ public class PermissionSecurityService {
 
     private static final String ROLE_PREFIX = "ROLE_";
 
-    public boolean hasRoleAndUserId(Integer userId, String role) {
+    public boolean hasRoleAndUserId(String role, Integer idUser) {
 
-        return isAdminFirst(Objects.equals(userId, getAuthId()) && Objects.equals(ROLE_PREFIX.concat(role), getAuthRole()));
+        return isAdminFirst(Objects.equals(idUser, getAuthId()) && Objects.equals(ROLE_PREFIX.concat(role), getAuthRole()));
 
     }
 
