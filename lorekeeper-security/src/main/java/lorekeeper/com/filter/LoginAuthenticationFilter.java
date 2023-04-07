@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lorekeeper.com.domain.TokenResponse;
 import lorekeeper.com.domain.UserSecurity;
 import lorekeeper.com.service.JWTService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,13 +22,14 @@ import java.io.IOException;
 
 public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    @Autowired
-    private JWTService jwtService;
+    private final JWTService jwtService;
 
     private static final RequestMatcher antPathLogin = new AntPathRequestMatcher("/auth/login", HttpMethod.POST.name());
 
-    public LoginAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public LoginAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
         super(antPathLogin, authenticationManager);
+
+        this.jwtService = jwtService;
     }
 
     @Override

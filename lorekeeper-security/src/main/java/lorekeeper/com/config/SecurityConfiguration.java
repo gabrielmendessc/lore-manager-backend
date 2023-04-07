@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import lorekeeper.com.filter.ExceptionHandlerFilter;
 import lorekeeper.com.filter.JWTAuthenticationFilter;
 import lorekeeper.com.filter.LoginAuthenticationFilter;
+import lorekeeper.com.service.JWTService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -35,6 +36,7 @@ public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
     private final HandlerExceptionResolver handlerExceptionResolver;
+    private final JWTService jwtService;
 
     @Bean
     @SneakyThrows
@@ -85,7 +87,7 @@ public class SecurityConfiguration {
     @Bean
     public LoginAuthenticationFilter loginAuthenticationFilter() {
 
-        return new LoginAuthenticationFilter(authenticationManager());
+        return new LoginAuthenticationFilter(authenticationManager(), jwtService);
 
     }
 
