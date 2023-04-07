@@ -32,14 +32,14 @@ public abstract class AbstractCrudUserController<Domain extends AbstractDomain, 
 
     @Override
     @DeleteMapping("/{id}")
-    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId(#id, 'USER')")
+    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId('USER', #id)")
     public ResponseEntity<?> delete(@PathVariable Id id) throws AccessDeniedException {
         return super.delete(id);
     }
 
     @Override
     @GetMapping("/{id}")
-    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId(#id, 'USER')")
+    @PreAuthorize("@permissionSecurityService.hasRoleAndUserId('USER', #id)")
     public ResponseEntity<?> findById(@PathVariable Id id) throws AccessDeniedException {
         return super.findById(id);
     }
