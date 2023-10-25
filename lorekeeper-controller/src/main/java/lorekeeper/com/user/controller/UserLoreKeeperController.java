@@ -13,7 +13,9 @@ public class UserLoreKeeperController extends AbstractCrudUserController<UserLor
 
     @Override
     public ResponseEntity<?> save(UserLoreKeeper domain) throws AccessDeniedException {
+
         throw new AccessDeniedException("Access Denied");
+
     }
 
 }

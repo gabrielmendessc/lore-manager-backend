@@ -59,7 +59,7 @@ public abstract class AbstractCrudService<Domain extends AbstractDomain, ID exte
     @SneakyThrows
     protected Domain updateData(Domain entityDomain, Domain newDomain) {
 
-        for(Field fieldNew : newDomain.getClass().getDeclaredFields()) {
+        for (Field fieldNew : newDomain.getClass().getDeclaredFields()) {
 
             fieldNew.setAccessible(true);
             if (fieldNew.isAnnotationPresent(Id.class)) {

@@ -37,7 +37,7 @@ public class PermissionSecurityService {
 
     private DecodedJWT getPrincipal() {
 
-        return ((DecodedJWT) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return (DecodedJWT) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     }
 
